@@ -34,10 +34,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
-    @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<?> handleDuplicate(DuplicateKeyException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("error", "Email já cadastrado");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+    @ExceptionHandler({ DuplicateKeyException.class })
+    public ResponseEntity<Map<String, String>> handleDuplicateKeyException(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Já existe um registro com esse valor único");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
     }
 }

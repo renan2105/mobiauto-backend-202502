@@ -1,8 +1,8 @@
 package com.renan.controller;
 
-import com.renan.dto.LojaRequestDTO;
-import com.renan.dto.LojaResponseDTO;
-import com.renan.service.LojaService;
+import com.renan.dto.RevendaRequestDTO;
+import com.renan.dto.RevendaResponseDTO;
+import com.renan.service.RevendaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,33 +12,33 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/lojas")
-public class LojaController {
+@RequestMapping("/api/revendas")
+public class RevendaController {
 
-    private final LojaService service;
+    private final RevendaService service;
 
-    public LojaController(LojaService service) {
+    public RevendaController(RevendaService service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<LojaResponseDTO> listar() {
+    public List<RevendaResponseDTO> listar() {
         return service.listar();
     }
 
     @GetMapping("/{id}")
-    public LojaResponseDTO buscarPorId(@PathVariable UUID id) {
+    public RevendaResponseDTO buscarPorId(@PathVariable UUID id) {
         return service.buscarPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<LojaResponseDTO> criar(@Valid @RequestBody LojaRequestDTO dto) {
-        LojaResponseDTO response = service.criar(dto);
+    public ResponseEntity<RevendaResponseDTO> criar(@Valid @RequestBody RevendaRequestDTO dto) {
+        RevendaResponseDTO response = service.criar(dto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public LojaResponseDTO atualizar(@PathVariable UUID id, @Valid @RequestBody LojaRequestDTO dto) {
+    public RevendaResponseDTO atualizar(@PathVariable UUID id,@Valid @RequestBody RevendaRequestDTO dto) {
         return service.atualizar(id, dto);
     }
 

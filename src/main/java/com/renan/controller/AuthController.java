@@ -43,9 +43,6 @@ public class AuthController {
 
     @PostMapping("/register-admin")
     public ResponseEntity<?> registerAdmin(@RequestBody AuthRequest request) {
-        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body("Email já cadastrado");
-        }
         Usuario usuario = new Usuario();
         usuario.setId(java.util.UUID.randomUUID());
         usuario.setNome(request.getEmail());

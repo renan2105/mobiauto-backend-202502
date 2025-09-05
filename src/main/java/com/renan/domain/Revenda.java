@@ -1,19 +1,23 @@
 package com.renan.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Document(collection = "lojas")
-public class Loja {
+@Document(collection = "revendas")
+public class Revenda {
 
     @Id
     private UUID id;
 
     private String nome;
 
-    public Loja() {
+    @Indexed(unique = true)
+    private String cnpj;
+
+    public Revenda() {
         this.id = UUID.randomUUID();
     }
 
@@ -31,5 +35,13 @@ public class Loja {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 }
