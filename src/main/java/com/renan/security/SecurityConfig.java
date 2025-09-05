@@ -30,12 +30,16 @@ public class SecurityConfig {
 
         http
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/usuarios").hasAuthority("ADMINISTRADOR")
-                .anyRequest().authenticated()
-                .and()
+                .authorizeHttpRequests(auth -> auth
+                        .antMatchers(HttpMethod.POST, "/api/usuarios/**").hasRole("ADMINISTRADOR")
+                        .antMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMINISTRADOR")
+                        .antMatchers(HttpMethod.PUT, "/api/usuarios/**")
+                        .hasAnyRole("PROPRIETARIO", "ADMINISTRADOR", "GERENTE")
+                        .antMatchers(HttpMethod.GET, "/api/usuarios/**").authenticated()
+                        .antMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
