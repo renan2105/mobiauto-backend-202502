@@ -5,6 +5,7 @@ import com.renan.dto.UsuarioRequestDTO;
 import com.renan.dto.UsuarioResponseDTO;
 import com.renan.exception.ResourceNotFoundException;
 import com.renan.repository.UsuarioRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,11 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
 
-    public UsuarioService(UsuarioRepository repository) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UsuarioService(UsuarioRepository repository, BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UsuarioResponseDTO> listar() {
@@ -38,7 +42,7 @@ public class UsuarioService {
         usuario.setId(UUID.randomUUID());
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(dto.getSenha());
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         usuario.setCargo(dto.getCargo());
 
         Usuario salvo = repository.save(usuario);
@@ -51,7 +55,7 @@ public class UsuarioService {
 
         existente.setNome(dto.getNome());
         existente.setEmail(dto.getEmail());
-        existente.setSenha(dto.getSenha());
+        existente.setSenha(passwordEncoder.encode(dto.getSenha()));
         existente.setCargo(dto.getCargo());
 
         Usuario atualizado = repository.save(existente);
