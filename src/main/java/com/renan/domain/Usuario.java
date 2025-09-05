@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Document(collection = "usuarios")
@@ -30,6 +32,8 @@ public class Usuario {
     private String senha;
 
     private Cargo cargo;
+
+    private List<PerfilLoja> perfis = new ArrayList<>();
 
     public Usuario() {
     }
@@ -72,5 +76,13 @@ public class Usuario {
 
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
+    }
+
+    public List<PerfilLoja> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(List<PerfilLoja> perfis) {
+        this.perfis = perfis;
     }
 }

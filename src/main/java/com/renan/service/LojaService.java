@@ -5,6 +5,7 @@ import com.renan.dto.LojaRequestDTO;
 import com.renan.dto.LojaResponseDTO;
 import com.renan.exception.ResourceNotFoundException;
 import com.renan.repository.LojaRepository;
+import com.renan.security.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,11 @@ public class LojaService {
 
     private final LojaRepository repository;
 
-    public LojaService(LojaRepository repository) {
+    private final SecurityUtils securityUtils;
+
+    public LojaService(LojaRepository repository, SecurityUtils securityUtils) {
         this.repository = repository;
+        this.securityUtils = securityUtils;
     }
 
     public List<LojaResponseDTO> listar() {
@@ -40,6 +44,7 @@ public class LojaService {
     }
 
     public LojaResponseDTO atualizar(UUID id, LojaRequestDTO dto) {
+        securityUtils.checkManagePermission(id);
         Loja loja = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Loja não encontrada: " + id));
         loja.setNome(dto.getNome());
