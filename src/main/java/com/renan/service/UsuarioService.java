@@ -38,6 +38,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
+
         Usuario usuario = new Usuario();
         usuario.setId(UUID.randomUUID());
         usuario.setNome(dto.getNome());
