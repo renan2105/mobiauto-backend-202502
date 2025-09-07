@@ -21,6 +21,12 @@ public class RevendaController {
         this.service = service;
     }
 
+    @PostMapping
+    public ResponseEntity<RevendaResponseDTO> criar(@Valid @RequestBody RevendaRequestDTO dto) {
+        RevendaResponseDTO response = service.criar(dto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
     @GetMapping
     public List<RevendaResponseDTO> listar() {
         return service.listar();
@@ -29,12 +35,6 @@ public class RevendaController {
     @GetMapping("/{id}")
     public RevendaResponseDTO buscarPorId(@PathVariable UUID id) {
         return service.buscarPorId(id);
-    }
-
-    @PostMapping
-    public ResponseEntity<RevendaResponseDTO> criar(@Valid @RequestBody RevendaRequestDTO dto) {
-        RevendaResponseDTO response = service.criar(dto);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

@@ -31,15 +31,6 @@ public class OportunidadeController {
         return ResponseEntity.ok(mapperEntityToResponse(salvo));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OportunidadeResponseDTO> atualizar(@PathVariable UUID id,
-                                                             @Valid @RequestBody OportunidadeRequestDTO dto) {
-        Oportunidade oportunidade = mapperDtoToEntity(dto);
-        Oportunidade atualizado = oportunidadeService.atualizar(id, oportunidade, dto.getUsuarioId());
-
-        return ResponseEntity.ok(mapperEntityToResponse(atualizado));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<OportunidadeResponseDTO> buscarPorId(@PathVariable UUID id) {
         return oportunidadeService.buscarPorId(id)
@@ -54,6 +45,15 @@ public class OportunidadeController {
                 .map(this::mapperEntityToResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(lista);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OportunidadeResponseDTO> atualizar(@PathVariable UUID id,
+                                                             @Valid @RequestBody OportunidadeRequestDTO dto) {
+        Oportunidade oportunidade = mapperDtoToEntity(dto);
+        Oportunidade atualizado = oportunidadeService.atualizar(id, oportunidade, dto.getUsuarioId());
+
+        return ResponseEntity.ok(mapperEntityToResponse(atualizado));
     }
 
     @DeleteMapping("/{id}")

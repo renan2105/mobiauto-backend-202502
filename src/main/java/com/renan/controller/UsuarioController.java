@@ -23,9 +23,10 @@ public class UsuarioController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listar() {
-        return ResponseEntity.ok(service.listar());
+    @PostMapping
+    public ResponseEntity<UsuarioResponseDTO> criar(@Valid @RequestBody UsuarioRequestDTO dto) {
+        UsuarioResponseDTO salvo = service.criar(dto);
+        return ResponseEntity.created(URI.create("/api/usuarios/" + salvo.getId())).body(salvo);
     }
 
     @GetMapping("/{id}")
@@ -33,10 +34,9 @@ public class UsuarioController {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
-    @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> criar(@Valid @RequestBody UsuarioRequestDTO dto) {
-        UsuarioResponseDTO salvo = service.criar(dto);
-        return ResponseEntity.created(URI.create("/api/usuarios/" + salvo.getId())).body(salvo);
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDTO>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
     @PutMapping("/{id}")

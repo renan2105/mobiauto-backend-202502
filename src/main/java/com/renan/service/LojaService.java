@@ -31,6 +31,7 @@ public class LojaService {
     }
 
     public LojaResponseDTO buscarPorId(UUID id) {
+        securityUtils.checkManagePermission(id);
         Loja loja = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Loja não encontrada: " + id));
         return new LojaResponseDTO(loja.getId(), loja.getNome());

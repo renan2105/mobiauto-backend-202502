@@ -33,10 +33,19 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers(HttpMethod.POST, "/api/usuarios/**").hasRole("ADMINISTRADOR")
-                        .antMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMINISTRADOR")
+                        .antMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMINISTRADOR")
+                        .antMatchers(HttpMethod.GET, "/api/usuarios/**").authenticated()
                         .antMatchers(HttpMethod.PUT, "/api/usuarios/**")
                         .hasAnyRole("PROPRIETARIO", "ADMINISTRADOR", "GERENTE")
-                        .antMatchers(HttpMethod.GET, "/api/usuarios/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMINISTRADOR")
+
+                        .antMatchers(HttpMethod.POST, "/api/lojas/**").hasRole("ADMINISTRADOR")
+                        .antMatchers(HttpMethod.GET, "/api/lojas").hasRole("ADMINISTRADOR")
+                        .antMatchers(HttpMethod.GET, "/api/lojas/**").authenticated()
+                        .antMatchers(HttpMethod.DELETE, "/api/lojas/**").hasRole("ADMINISTRADOR")
+
+                        .antMatchers(HttpMethod.DELETE, "/api/oportunidades/**").hasRole("ADMINISTRADOR")
+
                         .antMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )

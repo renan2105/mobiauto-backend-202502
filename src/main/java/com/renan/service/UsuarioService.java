@@ -24,19 +24,6 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UsuarioResponseDTO> listar() {
-        return repository.findAll()
-                .stream()
-                .map(u -> new UsuarioResponseDTO(u.getId(), u.getNome(), u.getEmail(), u.getCargo()))
-                .collect(Collectors.toList());
-    }
-
-    public UsuarioResponseDTO buscarPorId(UUID id) {
-        Usuario usuario = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com id: " + id));
-        return new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getCargo());
-    }
-
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
 
         Usuario usuario = new Usuario();
@@ -48,6 +35,19 @@ public class UsuarioService {
 
         Usuario salvo = repository.save(usuario);
         return new UsuarioResponseDTO(salvo.getId(), salvo.getNome(), salvo.getEmail(), salvo.getCargo());
+    }
+
+    public List<UsuarioResponseDTO> listar() {
+        return repository.findAll()
+                .stream()
+                .map(u -> new UsuarioResponseDTO(u.getId(), u.getNome(), u.getEmail(), u.getCargo()))
+                .collect(Collectors.toList());
+    }
+
+    public UsuarioResponseDTO buscarPorId(UUID id) {
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com id: " + id));
+        return new UsuarioResponseDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getCargo());
     }
 
     public UsuarioResponseDTO atualizar(UUID id, UsuarioRequestDTO dto) {
