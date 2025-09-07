@@ -24,3 +24,4 @@ Projeto de backend em **Java 11** com **Spring Boot** e **MongoDB**, utilizando 
    ```bash
    git clone https://github.com/renan2105/mobiauto-backend-202502
    cd mobiauto-backend
+   docker-compose up --build
