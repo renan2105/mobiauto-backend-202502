@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Mobiauto Backend API",
-    "_postman_id": "c4c9b4a1-0000-4667-9999-123456789abc",
-    "description": "Collection para testar as APIs do Mobiauto Backend com autenticação JWT",
+    "name": "Mobiauto API - Completa",
+    "_postman_id": "f36c92f7-52a1-4632-8c44-111b2bde1a22",
+    "description": "Collection completa para testar a API Mobiauto",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -10,71 +10,86 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Register Admin",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "url": { "raw": "{{baseUrl}}/api/auth/register-admin", "host": ["{{baseUrl}}"], "path": ["api","auth","register-admin"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@mobiauto.com\",\n  \"senha\": \"123456\"\n}"
-            }
-          }
-        },
-        {
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@mobiauto.com\",\n  \"senha\": \"123456\"\n}"
-            }
-          },
-          "response": [],
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "let res = pm.response.json();",
-                  "pm.collectionVariables.set(\"token\", res.token);"
-                ]
-              }
-            }
-          ]
+            },
+            "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Registrar Usuário",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Novo Usuário\",\n  \"email\": \"novo@mobiauto.com\",\n  \"senha\": \"123456\",\n  \"cargo\": \"GERENTE\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth", "register"] }
+          }
         }
       ]
     },
     {
-      "name": "Usuarios",
+      "name": "Usuários",
       "item": [
         {
-          "name": "Criar Usuario",
+          "name": "Listar Usuários",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": { "raw": "{{baseUrl}}/api/usuarios", "host": ["{{baseUrl}}"], "path": ["api","usuarios"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Renan\",\n  \"email\": \"renan@mobiauto.com\",\n  \"senha\": \"123456\",\n  \"cargo\": \"GERENTE\"\n}"
-            }
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/usuarios", "host": ["{{base_url}}"], "path": ["usuarios"] }
           }
         },
         {
-          "name": "Listar Usuarios",
+          "name": "Buscar Usuário por ID",
           "request": {
             "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": { "raw": "{{baseUrl}}/api/usuarios", "host": ["{{baseUrl}}"], "path": ["api","usuarios"] }
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/usuarios/{{id_usuario}}", "host": ["{{base_url}}"], "path": ["usuarios", "{{id_usuario}}"] }
+          }
+        },
+        {
+          "name": "Criar Usuário",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Maria Silva\",\n  \"email\": \"maria@mobiauto.com\",\n  \"senha\": \"123456\",\n  \"cargo\": \"VENDEDOR\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/usuarios", "host": ["{{base_url}}"], "path": ["usuarios"] }
+          }
+        },
+        {
+          "name": "Atualizar Usuário",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Maria Atualizada\",\n  \"email\": \"maria2@mobiauto.com\",\n  \"cargo\": \"GERENTE\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/usuarios/{{id_usuario}}", "host": ["{{base_url}}"], "path": ["usuarios", "{{id_usuario}}"] }
+          }
+        },
+        {
+          "name": "Deletar Usuário",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/usuarios/{{id_usuario}}", "host": ["{{base_url}}"], "path": ["usuarios", "{{id_usuario}}"] }
           }
         }
       ]
@@ -83,33 +98,134 @@
       "name": "Lojas",
       "item": [
         {
+          "name": "Listar Lojas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/lojas", "host": ["{{base_url}}"], "path": ["lojas"] }
+          }
+        },
+        {
+          "name": "Buscar Loja por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/lojas/{{id_loja}}", "host": ["{{base_url}}"], "path": ["lojas", "{{id_loja}}"] }
+          }
+        },
+        {
           "name": "Criar Loja",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
-            "url": { "raw": "{{baseUrl}}/api/lojas", "host": ["{{baseUrl}}"], "path": ["api","lojas"] },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Loja Central\"\n}"
-            }
+              "raw": "{\n  \"nome\": \"Loja Centro\",\n  \"endereco\": \"Rua Principal, 123\",\n  \"telefone\": \"11999999999\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/lojas", "host": ["{{base_url}}"], "path": ["lojas"] }
           }
         },
         {
-          "name": "Listar Lojas",
+          "name": "Atualizar Loja",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Loja Atualizada\",\n  \"endereco\": \"Rua Nova, 456\",\n  \"telefone\": \"11888888888\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/lojas/{{id_loja}}", "host": ["{{base_url}}"], "path": ["lojas", "{{id_loja}}"] }
+          }
+        },
+        {
+          "name": "Deletar Loja",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/lojas/{{id_loja}}", "host": ["{{base_url}}"], "path": ["lojas", "{{id_loja}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Oportunidades",
+      "item": [
+        {
+          "name": "Listar Oportunidades",
           "request": {
             "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": { "raw": "{{baseUrl}}/api/lojas", "host": ["{{baseUrl}}"], "path": ["api","lojas"] }
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/oportunidades", "host": ["{{base_url}}"], "path": ["oportunidades"] }
+          }
+        },
+        {
+          "name": "Buscar Oportunidade por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/oportunidades/{{id_oportunidade}}", "host": ["{{base_url}}"], "path": ["oportunidades", "{{id_oportunidade}}"] }
+          }
+        },
+        {
+          "name": "Criar Oportunidade",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idLoja\": \"{{id_loja}}\",\n  \"cliente\": { \"nome\": \"João da Silva\", \"email\": \"joao@email.com\", \"telefone\": \"11911112222\" },\n  \"veiculo\": { \"marca\": \"VW\", \"modelo\": \"Gol\", \"versao\": \"1.0\", \"ano\": 2020 }\n}"
+            },
+            "url": { "raw": "{{base_url}}/oportunidades", "host": ["{{base_url}}"], "path": ["oportunidades"] }
+          }
+        },
+        {
+          "name": "Atualizar Oportunidade",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CONCLUIDO\",\n  \"motivoConclusao\": \"Venda concluída\",\n  \"cliente\": { \"nome\": \"João da Silva\", \"email\": \"joao@email.com\", \"telefone\": \"11911112222\" },\n  \"veiculo\": { \"marca\": \"VW\", \"modelo\": \"Gol\", \"versao\": \"1.0\", \"ano\": 2020 }\n}"
+            },
+            "url": { "raw": "{{base_url}}/oportunidades/{{id_oportunidade}}", "host": ["{{base_url}}"], "path": ["oportunidades", "{{id_oportunidade}}"] }
+          }
+        },
+        {
+          "name": "Buscar Oportunidades por Loja",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/oportunidades/loja/{{id_loja}}", "host": ["{{base_url}}"], "path": ["oportunidades", "loja", "{{id_loja}}"] }
+          }
+        },
+        {
+          "name": "Deletar Oportunidade",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+            "url": { "raw": "{{base_url}}/oportunidades/{{id_oportunidade}}", "host": ["{{base_url}}"], "path": ["oportunidades", "{{id_oportunidade}}"] }
           }
         }
       ]
     }
   ],
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080" },
-    { "key": "token", "value": "" }
+    { "key": "base_url", "value": "http://localhost:8080" },
+    { "key": "auth_token", "value": "" },
+    { "key": "id_usuario", "value": "" },
+    { "key": "id_loja", "value": "" },
+    { "key": "id_oportunidade", "value": "" }
   ]
 }
