@@ -4,41 +4,38 @@ import com.renan.domain.embedded.Cliente;
 import com.renan.domain.embedded.Veiculo;
 import com.renan.domain.enums.StatusOportunidade;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.UUID;
 
 @Document(collection = "oportunidades")
 public class Oportunidade {
 
     @Id
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
-    @NotNull
     private UUID idLoja;
 
     private StatusOportunidade status = StatusOportunidade.NOVO;
 
     private String motivoConclusao;
 
-    @NotNull
-    @Valid
     private Cliente cliente;
 
-    @NotNull
-    @Valid
     private Veiculo veiculo;
+
+    @DBRef
+    private Usuario usuarioAtribuido;
+
+    private Date dataAtribuicao;
+
+    private Date dataConclusao;
+
 
     public Oportunidade() {}
 
-    public Oportunidade(UUID idLoja, Cliente cliente, Veiculo veiculo) {
-        this.idLoja = idLoja;
-        this.cliente = cliente;
-        this.veiculo = veiculo;
-        this.status = StatusOportunidade.NOVO;
-    }
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
@@ -57,4 +54,15 @@ public class Oportunidade {
 
     public Veiculo getVeiculo() { return veiculo; }
     public void setVeiculo(Veiculo veiculo) { this.veiculo = veiculo; }
+
+    public Usuario getUsuarioAtribuido() { return usuarioAtribuido; }
+    public void setUsuarioAtribuido(Usuario usuarioAtribuido) {
+        this.usuarioAtribuido = usuarioAtribuido;
+        this.dataAtribuicao = new Date(); // atualiza sempre que atribuído
+    }
+
+    public Date getDataAtribuicao() { return dataAtribuicao; }
+
+    public Date getDataConclusao() { return dataConclusao; }
+    public void setDataConclusao(Date dataConclusao) { this.dataConclusao = dataConclusao; }
 }

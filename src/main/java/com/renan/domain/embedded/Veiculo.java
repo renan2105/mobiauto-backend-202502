@@ -1,20 +1,14 @@
 package com.renan.domain.embedded;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class Veiculo {
 
-    @NotBlank
     private String marca;
 
-    @NotBlank
     private String modelo;
 
-    @NotBlank
     private String versao;
 
-    @NotNull
     private Integer ano;
 
     public Veiculo() {}

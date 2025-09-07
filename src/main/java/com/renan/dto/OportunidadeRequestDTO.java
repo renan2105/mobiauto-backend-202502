@@ -15,6 +15,8 @@ public class OportunidadeRequestDTO {
 
     private String motivoConclusao;
 
+    private UUID usuarioId;
+
     @NotNull(message = "Os dados do cliente são obrigatórios")
     @Valid
     private ClienteRequestDTO cliente;
@@ -33,6 +35,9 @@ public class OportunidadeRequestDTO {
 
     public String getMotivoConclusao() { return motivoConclusao; }
     public void setMotivoConclusao(String motivoConclusao) { this.motivoConclusao = motivoConclusao; }
+
+    public UUID getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(UUID usuarioId) { this.usuarioId = usuarioId; }
 
     public ClienteRequestDTO getCliente() { return cliente; }
     public void setCliente(ClienteRequestDTO cliente) { this.cliente = cliente; }

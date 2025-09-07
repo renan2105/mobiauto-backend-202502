@@ -24,17 +24,19 @@ public class OportunidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<OportunidadeResponseDTO> criar(@Valid @RequestBody OportunidadeRequestDTO request) {
-        Oportunidade oportunidade = mapperDtoToEntity(request);
-        Oportunidade salvo = oportunidadeService.criar(oportunidade);
+    public ResponseEntity<OportunidadeResponseDTO> criar(@Valid @RequestBody OportunidadeRequestDTO dto) {
+        Oportunidade oportunidade = mapperDtoToEntity(dto);
+        Oportunidade salvo = oportunidadeService.criar(oportunidade, dto.getUsuarioId());
+
         return ResponseEntity.ok(mapperEntityToResponse(salvo));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OportunidadeResponseDTO> atualizar(@PathVariable UUID id,
-                                                             @Valid @RequestBody OportunidadeRequestDTO request) {
-        Oportunidade oportunidade = mapperDtoToEntity(request);
-        Oportunidade atualizado = oportunidadeService.atualizar(id, oportunidade);
+                                                             @Valid @RequestBody OportunidadeRequestDTO dto) {
+        Oportunidade oportunidade = mapperDtoToEntity(dto);
+        Oportunidade atualizado = oportunidadeService.atualizar(id, oportunidade, dto.getUsuarioId());
+
         return ResponseEntity.ok(mapperEntityToResponse(atualizado));
     }
 
@@ -60,36 +62,51 @@ public class OportunidadeController {
         return ResponseEntity.noContent().build();
     }
 
+
     private Oportunidade mapperDtoToEntity(OportunidadeRequestDTO dto) {
         Oportunidade oportunidade = new Oportunidade();
         oportunidade.setIdLoja(dto.getIdLoja());
         oportunidade.setStatus(dto.getStatus());
         oportunidade.setMotivoConclusao(dto.getMotivoConclusao());
 
-        Cliente cliente = new Cliente(dto.getCliente().getNome(),
-                dto.getCliente().getEmail(),
-                dto.getCliente().getTelefone());
-        oportunidade.setCliente(cliente);
+        oportunidade.setCliente(
+                new Cliente(dto.getCliente().getNome(),
+                        dto.getCliente().getEmail(),
+                        dto.getCliente().getTelefone())
+        );
 
-        Veiculo veiculo = new Veiculo(dto.getVeiculo().getMarca(),
-                dto.getVeiculo().getModelo(),
-                dto.getVeiculo().getVersao(),
-                dto.getVeiculo().getAno());
-        oportunidade.setVeiculo(veiculo);
+        oportunidade.setVeiculo(
+                new Veiculo(dto.getVeiculo().getMarca(),
+                        dto.getVeiculo().getModelo(),
+                        dto.getVeiculo().getVersao(),
+                        dto.getVeiculo().getAno())
+        );
 
         return oportunidade;
     }
 
     private OportunidadeResponseDTO mapperEntityToResponse(Oportunidade o) {
+        UsuarioResponseDTO usuarioResp = null;
+        if (o.getUsuarioAtribuido() != null) {
+            usuarioResp = new UsuarioResponseDTO(o.getUsuarioAtribuido().getId(),
+                    o.getUsuarioAtribuido().getNome(),
+                    o.getUsuarioAtribuido().getEmail(),
+                    o.getUsuarioAtribuido().getCargo());
+        }
+
         return new OportunidadeResponseDTO(
                 o.getId(),
                 o.getIdLoja(),
                 o.getStatus(),
                 o.getMotivoConclusao(),
                 new ClienteResponseDTO(o.getCliente().getNome(), o.getCliente().getEmail(), o.getCliente().getTelefone()),
-                new VeiculoResponseDTO(o.getVeiculo().getMarca(), o.getVeiculo().getModelo(), o.getVeiculo().getVersao(), o.getVeiculo().getAno())
+                new VeiculoResponseDTO(o.getVeiculo().getMarca(), o.getVeiculo().getModelo(), o.getVeiculo().getVersao(), o.getVeiculo().getAno()),
+                usuarioResp,
+                o.getDataAtribuicao(),
+                o.getDataConclusao()
         );
     }
+
 
 
 }

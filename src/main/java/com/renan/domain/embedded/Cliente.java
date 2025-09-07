@@ -1,18 +1,12 @@
 package com.renan.domain.embedded;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 public class Cliente {
 
-    @NotBlank
     private String nome;
 
-    @Email
-    @NotBlank
     private String email;
 
-    @NotBlank
     private String telefone;
 
     public Cliente() {}
