@@ -35,6 +35,42 @@ public class OportunidadeResponseDTO {
         this.dataConclusao = dataConclusao;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setIdLoja(UUID idLoja) {
+        this.idLoja = idLoja;
+    }
+
+    public void setStatus(StatusOportunidade status) {
+        this.status = status;
+    }
+
+    public void setMotivoConclusao(String motivoConclusao) {
+        this.motivoConclusao = motivoConclusao;
+    }
+
+    public void setCliente(ClienteResponseDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setVeiculo(VeiculoResponseDTO veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public void setUsuarioAtribuido(UsuarioResponseDTO usuarioAtribuido) {
+        this.usuarioAtribuido = usuarioAtribuido;
+    }
+
+    public void setDataAtribuicao(Date dataAtribuicao) {
+        this.dataAtribuicao = dataAtribuicao;
+    }
+
+    public void setDataConclusao(Date dataConclusao) {
+        this.dataConclusao = dataConclusao;
+    }
+
     public UUID getId() { return id; }
     public UUID getIdLoja() { return idLoja; }
     public StatusOportunidade getStatus() { return status; }
