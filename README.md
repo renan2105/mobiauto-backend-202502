@@ -36,6 +36,6 @@ Intuito criar um sistema de revenda de carros basico contando com:
 - Melhorar documentação adicionando mais detalhes com anotações swagger as controllers;
 
 ## Contato
-Email: orenan124@gmail.com
-Linkedin: https://www.linkedin.com/in/renan-oliveira-10a083134/
-GitHub: https://github.com/renan2105
+Email: orenan124@gmail.com  
+Linkedin: https://www.linkedin.com/in/renan-oliveira-10a083134/  
+GitHub: https://github.com/renan2105  

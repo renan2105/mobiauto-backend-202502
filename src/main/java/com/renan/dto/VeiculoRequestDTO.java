@@ -19,6 +19,13 @@ public class VeiculoRequestDTO {
 
     public VeiculoRequestDTO() {}
 
+    public VeiculoRequestDTO(String marca, String modelo, String versao, Integer ano) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.versao = versao;
+        this.ano = ano;
+    }
+
     public String getMarca() { return marca; }
     public void setMarca(String marca) { this.marca = marca; }
 

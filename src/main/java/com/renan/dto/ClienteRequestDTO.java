@@ -17,6 +17,12 @@ public class ClienteRequestDTO {
 
     public ClienteRequestDTO() {}
 
+    public ClienteRequestDTO(String nome, String email, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
