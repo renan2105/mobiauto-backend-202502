@@ -30,3 +30,12 @@ Intuito criar um sistema de revenda de carros basico contando com:
    git clone https://github.com/renan2105/mobiauto-backend-202502
    cd mobiauto-backend
    docker-compose up --build
+
+## Melhorias pensadas
+- Melhorar acesso aos recursos da aplicação retirando verificações dos services e colocando em Interceptors;
+- Melhorar documentação adicionando mais detalhes com anotações swagger as controllers;
+
+## Contato
+Email: orenan124@gmail.com
+Linkedin: https://www.linkedin.com/in/renan-oliveira-10a083134/
+GitHub: https://github.com/renan2105
